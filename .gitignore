@@ -1,2 +1,3 @@
 dump.txt
 .venv/*
+.venv/Lib/site-packages/*
