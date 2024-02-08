@@ -19,7 +19,7 @@ print(f'{width} {height}')
 blur_factor = 7
 kernel = np.ones((blur_factor, blur_factor), np.float32)/(blur_factor*blur_factor)
 img = cv2.filter2D(img, -1, kernel=kernel)
-#img = cv2.blur(img, (bl ur_factor, blur_factor))
+#img = cv2.blur(img, (blur_factor, blur_factor))
 
 #crush white
 # for i in range(0, width, 1):
