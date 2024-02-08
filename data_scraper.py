@@ -3,15 +3,16 @@ import numpy as np
 import uuid
 from utility import collectArea
 
-file_name = 's1.jpg'
+file_name = 't1.jpg'
 output_path = 'output\\'
 
-img = cv2.imread('src_images\\' + file_name)
+# img = cv2.imread('src_images\\' + file_name)
+img = cv2.imread('D:\\GitHub\\Hindi-Handwriting-Recognition\\src_images\\t1.jpg')
 img_demo = cv2.imread('src_images\\' + file_name)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 #img_demo = cv2.cvtColor(img_demo, cv2.COLOR_BGR2GRAY)
 img = cv2.bitwise_not(img)
-img = cv2.threshold(img, 85, 255, cv2.THRESH_BINARY)[1]
+img = cv2.threshold(img, 120, 255, cv2.THRESH_BINARY)[1]
 img_copy = img
 
 height, width = img.shape
@@ -22,6 +23,9 @@ print(f'{width} {height}')
 blur_factor = 7
 kernel = np.ones((blur_factor, blur_factor), np.float32)/(blur_factor*blur_factor)
 img = cv2.filter2D(img, -1, kernel=kernel)
+
+cv2.imshow('blurred', img)
+
 #img = cv2.blur(img, (blur_factor, blur_factor))
 
 #crush white

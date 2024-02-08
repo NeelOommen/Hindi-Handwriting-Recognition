@@ -61,6 +61,7 @@ hindi_unicode_characters = [
     '\u094B',
     '\u094C',
     '\u094D',
+    '\u095E',
     '\u0964',
     '\u0965',
     '\u0966',
