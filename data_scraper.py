@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
+import uuid
 from utility import collectArea
 
 file_name = 's1.jpg'
+output_path = 'output\\'
 
 img = cv2.imread('src_images\\' + file_name)
 img_demo = cv2.imread('src_images\\' + file_name)
@@ -10,6 +12,7 @@ img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 #img_demo = cv2.cvtColor(img_demo, cv2.COLOR_BGR2GRAY)
 img = cv2.bitwise_not(img)
 img = cv2.threshold(img, 85, 255, cv2.THRESH_BINARY)[1]
+img_copy = img
 
 height, width = img.shape
 
@@ -32,14 +35,17 @@ for i in range(0 , width, 1):
          if img[j][i] > 0:
             left,top,right,bottom = collectArea(img, i, j)
             cv2.rectangle(img_demo, (top,left), (bottom,right), (0,0,255), 1)
+            roi = img_copy[left:right, top:bottom]
+            roi_name = uuid.uuid4().hex
+            cv2.imwrite((output_path+roi_name+'.jpg'), roi)
             
-#debug
-f = open('dump.txt', 'w')
-for i in range(0 , width, 1):
-    for j in range(0 , height, 1):
-        f.write(str(img[j][i]) + '\t')
-    f.write('\n')
-f.close()
+# #debug
+# f = open('dump.txt', 'w')
+# for i in range(0 , width, 1):
+#     for j in range(0 , height, 1):
+#         f.write(str(img[j][i]) + '\t')
+#     f.write('\n')
+# f.close()
 
 
 cv2.imshow('test', img_demo)
