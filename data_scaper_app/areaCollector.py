@@ -39,5 +39,5 @@ def collectArea(img, i, j):
         
 
 
-    print(f'bounds: {leftBound} {topBound} {rightBound} {bottomBound}')
+    # print(f'bounds: {leftBound} {topBound} {rightBound} {bottomBound}')
     return (leftBound, topBound, rightBound, bottomBound)
