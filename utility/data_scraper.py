@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import uuid
-from areaCollector import collectArea
+from utility.areaCollector import collectArea
 
 def segmentCharacters(manager):
     #load image
@@ -22,8 +22,6 @@ def segmentCharacters(manager):
 
     #get output path
     output_path = manager.getOutputPath()
-
-    print(output_path)
 
     #carry out segmentation
     for i in range(0 , width, 1):

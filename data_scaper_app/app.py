@@ -3,14 +3,12 @@ import tkinter as tk
 from tkinter import messagebox
 from file_selector import fileSelectorPopulate
 from preprocessor import preprocessorPopulate
+from labelling import mappingPopulate
 from data_manager import data_manager
 
 img=None  
 
 manager = data_manager()
-
-def mappingPopulate(f):
-    pass
 
 window = tk.Tk()
 
@@ -35,6 +33,7 @@ def goToLabelling():
     global preprocessor_frame
     global char_mapping_frame
 
+    mappingPopulate(char_mapping_frame, manager)
     char_mapping_frame.pack(fill='both', expand=1)
     preprocessor_frame.forget()
 
@@ -49,8 +48,9 @@ window.geometry('700x900')
 
 #construct the UI for each frame
 fileSelectorPopulate(file_selector_frame, manager)
-mappingPopulate(char_mapping_frame)
+
 
 file_selector_frame.pack(fill='both', expand=1)
+#char_mapping_frame.pack(fill='both', expand=1)
 
 window.mainloop()

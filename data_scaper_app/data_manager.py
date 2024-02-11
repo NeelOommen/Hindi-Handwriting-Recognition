@@ -1,4 +1,6 @@
 import os
+from os import listdir
+from os.path import isfile, join
 
 class data_manager:
     def __init__(self) -> None:
@@ -13,6 +15,7 @@ class data_manager:
         self.lower_threshold = 0
         self.upper_threshold = 255
         self.blur_factor =  7
+        
 
     def setBlurFactor(self, factor):
         self.blur_factor = factor
@@ -72,5 +75,15 @@ class data_manager:
         return self.outputPath
 
     def __del__(self):
-        os.remove(self.filePath)
-        os.remove(self.thumbnailPath)
+        #clear the thumbnail and processing proxy copy of the image
+        if self.arePathsValid:
+            os.remove(self.filePath)
+            os.remove(self.thumbnailPath)
+
+        #clear segmentation characters if any left
+        path = self.outputPath
+        onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
+        
+        if len(onlyfiles) > 0:
+            for f in onlyfiles:
+                os.remove(path+f)

@@ -1,11 +1,14 @@
 import tkinter as tk
 import cv2
+import sys
+
+sys.path.insert(0,'../Hindi-Handwriting-Recognition/')
 
 from functools import partial
 from tkinter import Canvas
 from tkinter import *
 from PIL import ImageTk, Image
-from data_scraper import segmentCharacters
+from utility.data_scraper import segmentCharacters
 
 lower_limit_setter = None
 upper_limit_setter = None
@@ -72,7 +75,6 @@ def preprocessorPopulate(f, manager):
     manager.setImgCache(img)
 
     if manager.arePathsValid:
-        print(manager.getThumbnail())
         updateImage(canvas, manager)
 
     lower_bound_label = tk.Label(f, text='Lower Threshold Limit')
