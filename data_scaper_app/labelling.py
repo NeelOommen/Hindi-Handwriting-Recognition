@@ -53,12 +53,15 @@ def saveFile(manager, character, current_img):
 def button_callback(manager, character):
     global current_img
 
-    label_dict[current_img] = character
+    if character != 'IGNORE':
+        label_dict[current_img] = character
 
-    #move the file to the approrpiate dataset folder
-    saveFile(manager, character, current_img)
+        #move the file to the approrpiate dataset folder
+        saveFile(manager, character, current_img)
 
-    nextImage(manager)
+        nextImage(manager)
+    else:
+        nextImage(manager)
 
 
 def nextImage(manager):   
@@ -110,3 +113,7 @@ def mappingPopulate(f, manager):
             if(index < len(hindi_unicode_characters)):
                 temp_button = tk.Button(f, text=hindi_unicode_characters[index], height=2, width=3, command=partial(button_callback, manager, hindi_unicode_characters[index]))
                 temp_button.grid(row=i+2, column=j+1, padx=5, pady=5)
+
+    #add a discard button
+    discard_button = tk.Button(f, text='Ignore Character', height=2, command=partial(button_callback, manager, 'IGNORE'))
+    discard_button.grid(row=10, column=1, padx=5, pady=5, columnspan=3)
