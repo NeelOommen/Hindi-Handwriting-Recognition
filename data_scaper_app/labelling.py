@@ -1,6 +1,7 @@
 import tkinter as tk
 import os
 import sys
+import shutil
 
 sys.path.insert(0,'../Hindi-Handwriting-Recognition/')
 
@@ -22,6 +23,9 @@ canvas_ref = None
 
 img_temp = None
 
+dataset_path = ''
+cache_path = ''
+
 
 def indexConvertor(i, j, keysPerRow):
     index = (i*keysPerRow) + j
@@ -36,26 +40,37 @@ def load_file_names(manager):
     file_list = flist.copy()
 
 
+def saveFile(manager, character, current_img):
+    global dataset_path
+    global cache_path
+
+    dest_path = dataset_path + character + '\\' + current_img
+    src_path = cache_path + current_img
+
+    shutil.move(src_path, dest_path)
+
+
 def button_callback(manager, character):
     global current_img
 
     label_dict[current_img] = character
 
-    print(label_dict)
+    #move the file to the approrpiate dataset folder
+    saveFile(manager, character, current_img)
+
     nextImage(manager)
 
 
 def nextImage(manager):   
     global file_list
     global current_img
+    global cache_path
 
-    cache_path = manager.getOutputPath()
-    print(cache_path)
 
     current_picture = file_list.pop(0)
     current_img = current_picture
 
-    img = Image.open(manager.getOutputPath() + current_picture)
+    img = Image.open(cache_path + current_picture)
     #resize for better viewing
     width, height = img.size
     wpercent = (thumbnail_width/float(width))
@@ -70,7 +85,12 @@ def nextImage(manager):
 
 def mappingPopulate(f, manager):
     global canvas_ref
+    global dataset_path
+    global cache_path
     load_file_names(manager)
+
+    dataset_path = manager.getDatasetPath()
+    cache_path = manager.getOutputPath()
 
     #Image Preview
     canvas = Canvas(f, width=200, height=350)

@@ -42,6 +42,7 @@ manager.setProcessingSwitchFunction(goToProcessing)
 manager.setLabellingSwitchFunction(goToLabelling)
 manager.setBlurFactor(7)
 manager.setOutputPath('..\\Hindi-Handwriting-Recognition\\processing_cache\\temp_output\\')
+manager.setDatasetPath('..\\Hindi-Handwriting-Recognition\\Dataset\\')
 
 window.title('Handwriting Sample Processor')
 window.geometry('700x900')

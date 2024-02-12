@@ -7,6 +7,7 @@ class data_manager:
         self.filePath = ''
         self.thumbnailPath = ''
         self.outputPath = '..\\Hindi-Handwriting-Recognition\\processing_cache\\temp_output\\'
+        self.datasetPath = '..\\Hindi-Handwriting-Recognition\\Dataset\\'
         self.switchToPreprocessing = None
         self.switchToLabelling = None
         self.arePathsValid = False
@@ -16,7 +17,6 @@ class data_manager:
         self.upper_threshold = 255
         self.blur_factor =  7
         
-
     def setBlurFactor(self, factor):
         self.blur_factor = factor
 
@@ -64,6 +64,12 @@ class data_manager:
 
     def setOutputPath(self, oPath):
         self.outputPath = oPath
+
+    def setDatasetPath(self, dPath):
+        self.datasetPath = dPath
+
+    def getDatasetPath(self):
+        return self.datasetPath
 
     def getFileName(self):
         return self.filePath

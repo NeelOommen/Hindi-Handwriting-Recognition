@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import uuid
-from data_scaper_app.areaCollector import collectArea
+from areaCollector import collectArea
 
 if __name__ == '__main__':
     file_name = 't1.jpg'
