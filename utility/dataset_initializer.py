@@ -34,7 +34,8 @@ def createCSV(dir_path):
         filelist = [f for f in listdir(temp_path) if isfile(join(temp_path, f))]
 
         for f in filelist:
-            temp_dict = {'filename': f, 'label': p}
+            temp_name = p + '\\' + f
+            temp_dict = {'filename': temp_name, 'label': label_dict[p]}
             data_list.append(temp_dict)
 
     data_file_name = 'annotations.csv'
