@@ -1,14 +1,18 @@
-import sys
+import csv 
 
-sys.path.insert(0,'../Hindi-Handwriting-Recognition/')
+from unicode_list import test_set_labels
 
-import os
-from os import listdir
+rows =[]
 
-path = 'CNN_test_sandbox\Dataset\Train'
+with open('D:\\GitHub\\Hindi-Handwriting-Recognition\\CNN_test_sandbox\\Dataset\\Local (Testing)\\annotations.csv', 'r') as file:
+    reader = csv.reader(file)
+    for row in reader:
+        rows.append(row)
 
-with open('dump.txt', 'w') as f:
-    paths = listdir(path)
-    for line in paths:
-        f.write(line)
-        f.write('\n')
+
+for i in range(len(rows)):
+    rows[i][1] = str(test_set_labels[rows[i][1]])
+
+with open('D:\\GitHub\\Hindi-Handwriting-Recognition\\CNN_test_sandbox\\Dataset\\Local (Testing)\\annotations.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerows(rows)

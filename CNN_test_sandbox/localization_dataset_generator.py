@@ -4,9 +4,10 @@ import PIL
 import sys
 import uuid
 import csv
+import threading
 sys.path.insert(0,'../Hindi-Handwriting-Recognition/')
 
-from utility.unicode_list import test_set_labels
+from utility.unicode_list import test_set_labels_only
 from utility.iou import area_of_intersection
 from os import listdir
 from os.path import isfile, join
@@ -19,7 +20,7 @@ height = 500
 num_samples = 1000
 
 base_path = 'CNN_test_sandbox\Dataset\Train'
-output_path = 'D:\GitHub\Hindi-Handwriting-Recognition\CNN_test_sandbox\Dataset\Local'
+output_path = 'D:\GitHub\Hindi-Handwriting-Recognition\CNN_test_sandbox\Dataset\Local (Testing)'
 
 min_num_characters = 30
 max_num_characters = 45
@@ -39,8 +40,12 @@ max_blur_radius = 1
 min_noise_pixels = 25
 max_noise_pixels = 300
 
+lock = threading.Lock()
+
+
 #sample generator function
-def create_sample(a_list):
+def create_sample(a_list, idx):
+    print(f'started {idx}')
     global height
     global width
     #file name
@@ -53,7 +58,7 @@ def create_sample(a_list):
     num_chars = random.randint(min_num_characters, max_num_characters)
 
     #create a list of random characters of num_chars length
-    char_list = random.sample(test_set_labels, num_chars)
+    char_list = random.sample(test_set_labels_only, 40)
 
     #iterate over list
     img_num = 0
@@ -109,7 +114,9 @@ def create_sample(a_list):
         img_num += 1
 
         temp_dict = {'file_name': new_file_name, 'label': c, 'x1': x, 'y1': y, 'x2': x + t_width, 'y2': y + t_height}
+        
         a_list.append(temp_dict)
+        
 
     #noise
     num_noise_pixels = random.randint(min_noise_pixels, max_noise_pixels)
@@ -121,6 +128,7 @@ def create_sample(a_list):
     #save and annotate file
     new_file_path = output_path + '\\' + new_file_name
     img.save(new_file_path)
+    print(f'Done with {idx}')
 
 
 
@@ -129,10 +137,16 @@ if __name__ == '__main__':
     field_names = ['file_name', 'label', 'x1', 'y1', 'x2','y2']
     annotation_list = []
 
-    for i in range(1000):
-        create_sample(annotation_list)
-        print(i)
+    threading_list = []
 
-    with open('D:\\GitHub\\Hindi-Handwriting-Recognition\\CNN_test_sandbox\\Dataset\\Local\\annotations.csv', 'w', newline='') as csvfile:
+    for i in range(1000):
+        temp = threading.Thread(target=create_sample, args=(annotation_list, i))
+        threading_list.append(temp)
+        temp.start()
+        
+    for i in range(len(threading_list)):
+        threading_list[i].join()
+
+    with open('D:\\GitHub\\Hindi-Handwriting-Recognition\\CNN_test_sandbox\\Dataset\\Local (Testing)\\annotations.csv', 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=field_names)
         writer.writerows(annotation_list)
