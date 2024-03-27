@@ -4,7 +4,8 @@ from os import listdir
 from os.path import join, isfile
 from torchvision.io import read_image
 from torch.utils.data import Dataset
-import torch
+from PIL import Image
+
 
 class RCNNDataset(Dataset):
     def __init__(self, annotations, img_dir, device='cpu', transform=None, target_transform=None):
@@ -40,8 +41,9 @@ class RCNNDataset(Dataset):
             label_list.append(labels)
 
             temp_path = join(img_dir, f)
-            img = read_image(temp_path)
-            img = img.float()
+            #img = read_image(temp_path)
+            #img = img.float()
+            img = Image.open(temp_path)
             
 
             images.append(img)
